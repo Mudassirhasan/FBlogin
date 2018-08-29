@@ -10,6 +10,9 @@
         android:id="@+id/imageView2"
         android:layout_width="250dp"
         android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
         app:srcCompat="@drawable/com_facebook_button_icon_blue" />
 <LinearLayout
     android:layout_width="wrap_content"
@@ -98,18 +101,17 @@
         android:ems="10"
         android:inputType="textPersonName" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText4"
-        android:layout_centerHorizontal="true"
-        android:text="Submit" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="170dp"
         android:id="@+id/tvv"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Push Back Button To Logout" />
 
 </RelativeLayout>
