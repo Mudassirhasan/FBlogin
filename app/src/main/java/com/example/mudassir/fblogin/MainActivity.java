@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -37,13 +40,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION=1;
     TextView tv;
     LocationManager locationManager;
     String lat,lag;
-
+    String address;
     ImageView im;
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -103,10 +108,6 @@ public class MainActivity extends AppCompatActivity {
         try {
 
 
-
-
-
-
             first_name=object.getString("first_name");
             last_name=object.getString("last_name");
             email=object.getString("email");
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("Birth",birth);
             intent.putExtra("lati",lat);
             intent.putExtra("longi",lag);
+            intent.putExtra("add",address);
 
 
 
@@ -138,35 +140,48 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        } catch (JSONException e) {
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+
+
+ }
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        } else {
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (location != null) {
+                double lati = location.getLatitude();
+                double longi = location.getLongitude();
+               lat = String.valueOf(lati);
+                lag = String.valueOf(longi);
+               getAddress(lati,longi);
+
+            }
+
+        }
+    }
+
+    public String getAddress(double lat, double lag) {
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null; // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        try {
+            addresses = geocoder.getFromLocation(lat, lag, 1);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
+        address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-
+        return address;
     }
 
-    private void getLocation(){
-        if(ActivityCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission
-                (MainActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
 
-        }
-
-        else
-        {
-            Location location=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if(location!=null)
-            {
-                double lati=location.getLatitude();
-                double longi=location.getLongitude();
-                lat=String.valueOf(lati);
-                lag=String.valueOf(longi);
-            }
-        }
-    }
     protected void builAlertMsgNoGps()
     {
         final AlertDialog.Builder builder=new AlertDialog.Builder(this);

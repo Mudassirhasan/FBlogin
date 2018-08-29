@@ -44,12 +44,11 @@ public class User_Details extends AppCompatActivity {
         String e=intent.getStringExtra("Email");
         String id=intent.getStringExtra("Id");
         String bi=intent.getStringExtra("Birth");
-        String p=intent.getStringExtra("im");
-
+        String add=intent.getStringExtra("add");
         String lati=intent.getStringExtra("lati");
         String longi=intent.getStringExtra("longi");
 
-       tv.setText("Your location:"+"\nLatitude:"+lati+"\n Longitude:"+longi);
+       tv.setText("Your location:"+"\nLatitude:"+lati+"\n Longitude:"+longi+"\n Address:"+add);
         et1.setText(fn);
         et2.setText(ln);
         et3.setText(e);
