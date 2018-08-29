@@ -112,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
         android:text="Push Back Button To Logout" />
 
 </RelativeLayout>
