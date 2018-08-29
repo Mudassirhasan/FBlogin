@@ -9,11 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,19 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-
-
-
-                        try {
-                            URL pic=new URL("https://graph.facebook.com/"+loginResult.getAccessToken().getUserId()+"/picture?type=large");
-   Intent intent=new Intent(MainActivity.this,User_Details.class);
-                                intent.putExtra("im",pic);
-                                startActivity(intent);
-
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-
                         displayUserInfo(object);
                     }
                 });
@@ -141,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("Birth",birth);
             intent.putExtra("lati",lat);
             intent.putExtra("longi",lag);
+
+
 
             startActivity(intent);
 

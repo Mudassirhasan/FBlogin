@@ -36,6 +36,7 @@ public class User_Details extends AppCompatActivity {
 
 
 
+
         tv=findViewById(R.id.tvv);
         Intent intent= getIntent();
         String fn=intent.getStringExtra("First_Name");
@@ -44,6 +45,7 @@ public class User_Details extends AppCompatActivity {
         String id=intent.getStringExtra("Id");
         String bi=intent.getStringExtra("Birth");
         String p=intent.getStringExtra("im");
+
         String lati=intent.getStringExtra("lati");
         String longi=intent.getStringExtra("longi");
 
@@ -55,7 +57,9 @@ public class User_Details extends AppCompatActivity {
         et5.setText(id);
 
 
-        Picasso.with(this).load(p).into(im2);
+
+
+        Picasso.with(this).load("https://graph.facebook.com/"+id+"/picture?type=large").into(im2);
 
 
 
